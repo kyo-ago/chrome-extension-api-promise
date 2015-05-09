@@ -1,0 +1,45 @@
+{
+  "name": "chrome-extension-api-promise",
+  "version": "0.0.0",
+  "author": "@kyo_ago",
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "stage": 1
+        }
+      ]
+    ]
+  },
+  "dependencies": {
+    "bluebird": "^2.9.24"
+  },
+  "devDependencies": {
+    "babel-plugin-espower": "^0.3.0",
+    "babelify": "^6.0.2",
+    "browserify": "^10.0.0",
+    "david": "^6.1.6",
+    "fixpack": "^2.2.0",
+    "mocha": "^2.2.4",
+    "power-assert": "^0.11.0",
+    "watchify": "^3.2.0"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "promise"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kyo-ago/chrome-extension-api-promise.git"
+  },
+  "scripts": {
+    "clean": "rm -fr node_modules",
+    "deploy": "npm run fix && npm run clean && npm install && npm run test && npm version patch",
+    "fix": "fixpack && david",
+    "test": "mocha --require ./test/_base.js ./test/index.js"
+  }
+}

@@ -2,9 +2,14 @@ export default class _ {
     create(createProperties) {
         return new Promise((resolve) => chrome.tabs.create(createProperties, resolve));
     }
-    createActive(createProperties) {
-        let prop = Object.assing(createProperties, {'active': true});
+    createActive(createProperties = {}) {
+        let prop = Object.assign(createProperties, {'active': true});
         return this.create(prop);
+    }
+    openInnerPage(path, createProperties = {}) {
+        let url = chrome.extension.getURL(path);
+        let prop = Object.assign(createProperties, {url});
+        return this.createActive(prop);
     }
     remove(tabId) {
         return new Promise((resolve) => chrome.tabs.remove(tabId, resolve));
@@ -13,7 +18,12 @@ export default class _ {
         return new Promise((resolve) => chrome.tabs.update(tabId, updateProperties, resolve));
     }
     sendMessage(tabId, message) {
-        return new Promise((resolve) => chrome.tabs.sendMessage(tabId, message, resolve));
+        return new Promise((resolve, reject) => chrome.tabs.sendMessage(tabId, message, (...args) => {
+            if (chrome.runtime.lastError) {
+                return reject(chrome.runtime.lastError.message);
+            }
+            resolve.apply(this, args);
+        }));
     }
     waitComplete(tabId) {
         return new Promise((resolve) => {

@@ -6,10 +6,10 @@ export default class _ {
         let prop = Object.assign(createProperties, {'active': true});
         return this.create(prop);
     }
-    openInnerPage(path, createProperties = {}) {
+    updateInnerPage(tabId, path, createProperties = {}) {
         let url = chrome.extension.getURL(path);
         let prop = Object.assign(createProperties, {url});
-        return this.createActive(prop);
+        return this.update(tabId, prop);
     }
     remove(tabId) {
         return new Promise((resolve) => chrome.tabs.remove(tabId, resolve));
